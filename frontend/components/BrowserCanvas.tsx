@@ -58,6 +58,12 @@ const BrowserCanvas = forwardRef<BrowserCanvasHandle, BrowserCanvasProps>(
     }, []);
 
     useEffect(() => {
+      if (isActive && canvasRef.current) {
+        canvasRef.current.focus();
+      }
+    }, [isActive]);
+
+    useEffect(() => {
       if (!sessionId || !isActive) return;
 
       const socket = new BrowserSocket({
@@ -127,6 +133,7 @@ const BrowserCanvas = forwardRef<BrowserCanvasHandle, BrowserCanvasProps>(
 
     const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
       e.preventDefault();
+      canvasRef.current?.focus();
       const { x, y } = getCanvasCoords(e);
       socketRef.current?.send({ type: 'mouse', eventType: 'mousePressed', x, y, button: e.button === 2 ? 3 : 1, clickCount: 1 });
     }, [getCanvasCoords, socketRef]);

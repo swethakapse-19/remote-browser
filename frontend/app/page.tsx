@@ -215,17 +215,34 @@ export default function HomePage() {
           className="canvas-container"
           style={{ display: status === 'active' ? 'flex' : 'none' }}
         >
-          <BrowserCanvas
-            ref={canvasRef}
-            sessionId={sessionId}
-            isActive={status === 'active'}
-            onUrlChange={setCurrentUrl}
-            onLoadStart={handleLoadStart}
-            onLoadStop={handleLoadStop}
-            onFpsUpdate={setFps}
-            onError={handleError}
-            socketRef={socketRef}
-          />
+          <div className="mock-browser-window">
+            <div className="mock-browser-titlebar">
+              <div className="mock-window-controls">
+                <span className="control-dot close" />
+                <span className="control-dot minimize" />
+                <span className="control-dot maximize" />
+              </div>
+              <div className="mock-browser-tab">
+                <span className="tab-icon">🌐</span>
+                <span className="tab-title">
+                  {currentUrl === 'about:blank' ? 'New Tab' : currentUrl.replace(/^https?:\/\/(www\.)?/, '')}
+                </span>
+              </div>
+            </div>
+            <div className="mock-browser-content">
+              <BrowserCanvas
+                ref={canvasRef}
+                sessionId={sessionId}
+                isActive={status === 'active'}
+                onUrlChange={setCurrentUrl}
+                onLoadStart={handleLoadStart}
+                onLoadStop={handleLoadStop}
+                onFpsUpdate={setFps}
+                onError={handleError}
+                socketRef={socketRef}
+              />
+            </div>
+          </div>
           {status === 'active' && (
             <div className="canvas-overlay" aria-hidden>
               <div className="canvas-scanline" />
